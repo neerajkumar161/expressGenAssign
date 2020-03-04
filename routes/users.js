@@ -23,7 +23,7 @@ const statusCode = resJson.statusCode;
         jwt.verify(bearerHeader,config.key, (err,authData) =>{
             if(err) {
                 console.log(err);
-                res.sendStatus(403);    // Forbidden
+                //res.sendStatus(403);    // Forbidden
                 res.json({
                   success: false,
                   statusCode: statusCode.FORBIDDEN,

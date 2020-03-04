@@ -29,30 +29,41 @@ module.exports.productsPost = (req,res) => {
             const pname = bodyData.pName;
             const pdesc = bodyData.pDesc;
             const pimg = bodyData.pImage;
-            try{
-                reg = new prodSchema({
-                    pID : pid,
-                    userID : userId,
-                    pName : pname,
-                    pDesc :pdesc,
-                    pImage :pimg,
-                });
-                reg.save().then((result) => {
-                        console.log(result);
-                        res.json({
-                            success: true,
-                            statusCode: statusCode.OK,
-                            message: msg.PROD_ADDED_SUCC,
-                            data: result,
-                            user : {
-                                    firstName : userInfo.firstName,
-                                    lastName : userInfo.lastName,
-                                    email : userInfo.email
-                                    }
-                         })
-                    })
+            if(pid && pname && pdesc && pimg)
+            {
+                try{
+                    reg = new prodSchema({
+                        pID : pid,
+                        userID : userId,
+                        pName : pname,
+                        pDesc :pdesc,
+                        pImage :pimg,
+                    });
+                    reg.save().then((result) => {
+                            console.log(result);
+                            res.json({
+                                success: true,
+                                statusCode: statusCode.OK,
+                                message: msg.PROD_ADDED_SUCC,
+                                data: result,
+                                user : {
+                                        firstName : userInfo.firstName,
+                                        lastName : userInfo.lastName,
+                                        email : userInfo.email
+                                        }
+                             })
+                        })
+                }
+                catch(err){console.log("Your Error",err)}
             }
-            catch(err){console.log("Your Error",err)}
+            else{
+                res.json({
+                    success: false,
+                    statusCode: statusCode.BAD_REQUEST,
+                    message: msg.ALL_FIELDS_REQ
+                })
+            }
+            
         }
     });
 }
@@ -127,7 +138,7 @@ module.exports.productsDelete = (req,res) =>{       // /products/:prodId
 //PUT Method
 module.exports.productsPut = (req,res) => {
     let prodID = req.params.productId;
-    const jsonParse = JSON.parse(req.body);
+    const jsonParse = req.body;
     const pid = jsonParse.pID;
     const pname = jsonParse.pName;
     const pdesc = jsonParse.pDesc;

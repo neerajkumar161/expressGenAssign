@@ -61,7 +61,11 @@ module.exports.registerPost = (req,res) =>{
             });
         }
         else{
-            res.json(msg.ALL_FIELDS_REQ);
+            res.json({
+                success: false,
+                statusCode: statusCode.BAD_REQUEST,
+                message: msg.ALL_FIELDS_REQ
+            });
         }
     }
     catch(err)

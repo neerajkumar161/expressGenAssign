@@ -7,7 +7,7 @@ const statusCode = resJson.statusCode;
 // POST Method
 module.exports.reviewsPost = (req,res) => {
     console.log(req.body);
-    var jsonParse = JSON.parse(req.body);
+    var jsonParse = req.body;
     var review = jsonParse.review;
     var prodID = req.params.id;
     reg = new reviewSchema({
