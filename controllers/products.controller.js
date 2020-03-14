@@ -47,11 +47,11 @@ module.exports.productsPost = (req,res) => {
                                     statusCode: statusCode.OK,
                                     message: msg.PROD_ADDED_SUCC,
                                     data: result,
-                                    user : {
-                                            firstName : userInfo.firstName,
-                                            lastName : userInfo.lastName,
-                                            email : userInfo.email
-                                            }
+                                    // user : {
+                                    //         firstName : userInfo.firstName,
+                                    //         lastName : userInfo.lastName,
+                                    //         email : userInfo.email
+                                    //         }
                                  })
                             })
                     
