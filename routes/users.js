@@ -34,7 +34,7 @@ const statusCode = resJson.statusCode;
               next();
         })
     }
-    router.use(checkStatus);
+    // router.use(checkStatus);
 
     router.get('/', function(req, res, next) {
       res.send('respond with a resource');

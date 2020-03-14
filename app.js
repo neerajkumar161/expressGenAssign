@@ -9,8 +9,11 @@ var indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const productsRouter = require('./routes/products');
 const reviewsRouter = require('./routes/review');
+var cors = require('cors');
 var app = express();
 
+// cors
+app.use(cors());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

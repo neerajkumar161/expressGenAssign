@@ -7,65 +7,67 @@ const statusCode = resJson.statusCode;
 
 // POST Method
 module.exports.productsPost = (req,res) => {
-    var bodyData = req.body;
-    var userInfo,userId ;
-    const bearerHeader = req.headers['authorization'];
-    jwt.verify(bearerHeader,config.key, (err,authData) =>{
-        if(err) {
-            console.log(err);
-            res.sendStatus(403);    // Forbidden
-            res.json({
-                success: false,
-                statusCode: statusCode.FORBIDDEN,
-                message: msg.TOKEN_NOT_FOUND
-            })
-        }
-        else
-        {
-            userInfo = authData.reg;
-            userId = authData.reg._id;
-            console.log(userId);
-            const pid = bodyData.pID;
-            const pname = bodyData.pName;
-            const pdesc = bodyData.pDesc;
-            const pimg = bodyData.pImage;
-            if(pid && pname && pdesc && pimg)
-            {
-                try{
-                    reg = new prodSchema({
-                        pID : pid,
-                        userID : userId,
-                        pName : pname,
-                        pDesc :pdesc,
-                        pImage :pimg,
-                    });
-                    reg.save().then((result) => {
-                            console.log(result);
-                            res.json({
-                                success: true,
-                                statusCode: statusCode.OK,
-                                message: msg.PROD_ADDED_SUCC,
-                                data: result,
-                                user : {
-                                        firstName : userInfo.firstName,
-                                        lastName : userInfo.lastName,
-                                        email : userInfo.email
-                                        }
-                             })
-                        })
+    try{
+        var bodyData = req.body;
+        var userInfo,userId ;
+        // const bearerHeader = req.headers['authorization'];
+        // jwt.verify(bearerHeader,config.key, (err,authData) =>{
+        //     if(err) {
+        //         console.log(err);
+        //         res.sendStatus(403);    // Forbidden
+        //         res.json({
+        //             success: false,
+        //             statusCode: statusCode.FORBIDDEN,
+        //             message: msg.TOKEN_NOT_FOUND
+        //         })
+        //     }
+            // else
+            // {
+                // userInfo = authData.reg;
+                // userId = authData.reg._id;
+                // console.log(userId);
+                const pid = bodyData.pID;
+                const pname = bodyData.pName;
+                const pdesc = bodyData.pDesc;
+                const pimg = bodyData.pImage;
+                if(pid && pname && pdesc && pimg)
+                {
+                    
+                        reg = new prodSchema({
+                            pID : pid,
+                            //userID : userId,
+                            pName : pname,
+                            pDesc :pdesc,
+                            pImage :pimg,
+                        });
+                        reg.save().then((result) => {
+                                console.log(result);
+                                res.json({
+                                    success: true,
+                                    statusCode: statusCode.OK,
+                                    message: msg.PROD_ADDED_SUCC,
+                                    data: result,
+                                    user : {
+                                            firstName : userInfo.firstName,
+                                            lastName : userInfo.lastName,
+                                            email : userInfo.email
+                                            }
+                                 })
+                            })
+                    
                 }
-                catch(err){console.log("Your Error",err)}
-            }
-            else{
-                res.json({
-                    success: false,
-                    statusCode: statusCode.BAD_REQUEST,
-                    message: msg.ALL_FIELDS_REQ
-                })
-            }
-            
-        }
-    });
+                else{
+                    res.json({
+                        success: false,
+                        statusCode: statusCode.BAD_REQUEST,
+                        message: msg.ALL_FIELDS_REQ
+                    })
+                }
+                
+            // }
+        // });
+    }
+    catch(err){console.log("Your Error",err)}
 }
 
 // Getting product passing prodId
