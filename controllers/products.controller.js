@@ -26,15 +26,15 @@ module.exports.productsPost = (req,res) => {
                 // userInfo = authData.reg;
                 // userId = authData.reg._id;
                 // console.log(userId);
-                const pid = bodyData.pID;
+                //const pid = bodyData.pID;
                 const pname = bodyData.pName;
                 const pdesc = bodyData.pDesc;
                 const pimg = bodyData.pImage;
-                if(pid && pname && pdesc && pimg)
+                if(pname && pdesc && pimg)
                 {
                     
                         reg = new prodSchema({
-                            pID : pid,
+                            //pID : pid,
                             //userID : userId,
                             pName : pname,
                             pDesc :pdesc,
@@ -122,8 +122,9 @@ module.exports.productsGetAll = (req,res) => {
 // Delete
 module.exports.productsDelete = (req,res) =>{       // /products/:prodId
     let prodId = req.params.prodId;
+    // let prodId = req.params.prodId;
     console.log(prodId);
-    prodSchema.deleteOne({pID:prodId},(err, result)=> {
+    prodSchema.findOneAndDelete({_id:prodId},(err, result)=> {
         if(err) throw err;
         else{
             console.log(result);
@@ -139,7 +140,7 @@ module.exports.productsDelete = (req,res) =>{       // /products/:prodId
 
 //PUT Method
 module.exports.productsPut = (req,res) => {
-    let prodID = req.params.productId;
+   // let prodID = req.params.productId;
     const jsonParse = req.body;
     const pid = jsonParse.pID;
     const pname = jsonParse.pName;
@@ -150,11 +151,11 @@ module.exports.productsPut = (req,res) => {
         pDesc: pdesc,
         pImage: pimg    
     }
-    prodSchema.findOneAndUpdate({pID: prodID},update)
+    prodSchema.findOneAndUpdate({_id: pid},update)
     .then(result =>{
         if(result)
         {
-            prodSchema.find({pID:prodID}).exec()
+            prodSchema.find({pID:pid}).exec()
             .then(result=>{
                 res.json({
                     success: true,
