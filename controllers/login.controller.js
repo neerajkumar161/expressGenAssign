@@ -35,7 +35,8 @@ module.exports.loginPost = (req,res)=>{
                             res.json({
                                 success :true,
                                 statusCode: statusCode.OK,
-                                message : msg.TOKEN_GENERATED,
+                                // message : msg.TOKEN_GENERATED,
+                                data: result,
                                 message: msg.AUTHENTICATION_SUCC,
                                 token : token
                             });
@@ -57,17 +58,17 @@ module.exports.loginPost = (req,res)=>{
     }
     else
     {
-        // jwt.verify(bearerHeader,config.key, (err,authData) =>{
-        // // if invalid token transferred
-        // if(err) {
-        //     console.log(err);
-        //     res.json({
-        //         success: false,
-        //         statusCode: statusCode.FORBIDDEN,   // Forbidden 403
-        //         message: msg.TOKEN_NOT_FOUND
-        //     })
-        // }
-   /*else*/     {
+        jwt.verify(bearerHeader,config.key, (err,authData) =>{
+        // if invalid token transferred
+        if(err) {
+            console.log(err);
+            res.json({
+                success: false,
+                statusCode: statusCode.FORBIDDEN,   // Forbidden 403
+                message: msg.TOKEN_NOT_FOUND
+            })
+        }
+        else{
             // console.log('UserId :',authData.reg._id);
             userSchema.findOne({email:email}).exec()
             .then(result => {
@@ -100,6 +101,6 @@ module.exports.loginPost = (req,res)=>{
                 return;
             })
         }
-        // })
+        })
     }
 }

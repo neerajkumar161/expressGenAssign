@@ -4,6 +4,7 @@ var jwt = require('jsonwebtoken');
 var config = require('../bin/config');
 var routerRegister = require('../controllers/register.controller');
 var routeLogin = require('../controllers/login.controller');
+var routeUser = require('../controllers/users.controller');
 const resJson = require('../message');
 const msg = resJson.message;
 const statusCode = resJson.statusCode;
@@ -34,8 +35,12 @@ const statusCode = resJson.statusCode;
               next();
         })
     }
-    // router.use(checkStatus);
+    router.use(checkStatus);
 
+    router.get('/user/:userid',(req,res) =>{
+        routeUser.getCurrentUser(req,res);
+    })
+   
     router.get('/', function(req, res, next) {
       res.send('respond with a resource');
     });

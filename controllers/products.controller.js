@@ -10,23 +10,23 @@ module.exports.productsPost = (req,res) => {
     try{
         var bodyData = req.body;
         var userInfo,userId ;
-        // const bearerHeader = req.headers['authorization'];
-        // jwt.verify(bearerHeader,config.key, (err,authData) =>{
-        //     if(err) {
-        //         console.log(err);
-        //         res.sendStatus(403);    // Forbidden
-        //         res.json({
-        //             success: false,
-        //             statusCode: statusCode.FORBIDDEN,
-        //             message: msg.TOKEN_NOT_FOUND
-        //         })
-        //     }
-            // else
-            // {
-                // userInfo = authData.reg;
-                // userId = authData.reg._id;
-                // console.log(userId);
-                //const pid = bodyData.pID;
+        const bearerHeader = req.headers['authorization'];
+        jwt.verify(bearerHeader,config.key, (err,authData) =>{
+            if(err) {
+                console.log(err);
+                res.sendStatus(403);    // Forbidden
+                res.json({
+                    success: false,
+                    statusCode: statusCode.FORBIDDEN,
+                    message: msg.TOKEN_NOT_FOUND
+                })
+            }
+            else
+            {
+                userInfo = authData.reg;
+                userId = authData.reg._id;
+                console.log(userId);
+                const pid = bodyData.pID;
                 const pname = bodyData.pName;
                 const pdesc = bodyData.pDesc;
                 const pimg = bodyData.pImage;
@@ -34,8 +34,8 @@ module.exports.productsPost = (req,res) => {
                 {
                     
                         reg = new prodSchema({
-                            //pID : pid,
-                            //userID : userId,
+                            pID : pid,
+                            userID : userId,
                             pName : pname,
                             pDesc :pdesc,
                             pImage :pimg,
@@ -64,8 +64,8 @@ module.exports.productsPost = (req,res) => {
                     })
                 }
                 
-            // }
-        // });
+            }
+        });
     }
     catch(err){console.log("Your Error",err)}
 }
